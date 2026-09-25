@@ -1,18 +1,38 @@
-# BULLDROP SIGNAL BOT
+# BULLDROP SIGNAL — Render Free Web Service
 
-1. `bot.py` ichidagi `BOT_TOKEN` ga BotFather bergan YANGI tokenni qo'ying.
-2. `ADMIN_IDS` allaqachon `6982309853` qilib qo'yilgan.
-3. GitHub'ga shu fayllarni yuklang.
-4. Render'da Background Worker yarating:
-   - Runtime: Python
-   - Build Command: `pip install -r requirements.txt`
-   - Start Command: `python bot.py`
+Bu versiya Render **Web Service Free** uchun tayyorlangan.
 
-Majburiy kanal:
-`/addchannel @kanal_username`
+## GitHub
+ZIP ichidagi 3 faylni repository root'iga yuklang:
+- bot.py
+- requirements.txt
+- render.yaml
 
-Kanalni olib tashlash:
-`/removechannel @kanal_username`
+## Render
+New -> Web Service -> GitHub repository.
 
-Admin balans qo'shish:
-`/addbalance USER_ID SUMMA`
+Build Command:
+`pip install -r requirements.txt`
+
+Start Command:
+`python bot.py`
+
+Plan:
+`Free`
+
+## Token
+Bot tokenini GitHub kodiga yozmang.
+
+Render -> Environment -> Add Environment Variable:
+
+Key:
+`BOT_TOKEN`
+
+Value:
+BotFather bergan YANGI token.
+
+Admin ID:
+`6982309853` kod ichida allaqachon mavjud.
+
+## Muhim
+Bot polling ishlatadi va shu bilan birga Render talab qiladigan HTTP portni ochadi.
