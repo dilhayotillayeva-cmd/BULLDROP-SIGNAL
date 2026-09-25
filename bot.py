@@ -51,6 +51,7 @@ def menu(uid):
     ]
     if uid in ADMIN_IDS:
         rows.append([KeyboardButton(text="🛠 Admin panel")])
+        rows.append([KeyboardButton(text="📢 Kanallar")])
     return ReplyKeyboardMarkup(keyboard=rows, resize_keyboard=True)
 
 async def check_sub(uid):
@@ -164,7 +165,7 @@ async def buy(c: CallbackQuery):
     cur.execute("INSERT INTO signals(user_id,stars,bombs) VALUES(?,?,?)", (uid, stars, bombs))
     db.commit()
 
-    cells = ["⭐"] * stars + ["💣"] * bombs
+    # Only ⭐ signals are displayed
     random.shuffle(cells)
     rows = []
     for i in range(0, len(cells), 5):
@@ -173,7 +174,7 @@ async def buy(c: CallbackQuery):
     await c.message.edit_text(
         f"🎯 SIGNAL TAYYOR!\n\n⭐ {stars} ta signal\n💣 {bombs} ta bomba\n\n"
         f"💰 500 so‘m yechildi.\n💳 Qoldiq: {balance-SIGNAL_PRICE} so‘m\n\n"
-        "⚠️ Bu tasodifiy generatsiya qilingan signal.",
+        "⚠️ Bu tasodifiy generatsiya qilingan signal. Faqat ⭐ kataklar ko‘rsatiladi.",
         reply_markup=InlineKeyboardMarkup(inline_keyboard=rows))
     await c.answer()
 
@@ -291,6 +292,58 @@ async def start_web():
     site = web.TCPSite(runner, "0.0.0.0", port)
     await site.start()
     print(f"Web server listening on port {port}")
+
+@dp.message(F.text == "📢 Kanallar")
+async def channel_menu(m: Message):
+    if m.from_user.id not in ADMIN_IDS:
+        return
+    cur.execute("SELECT username FROM channels ORDER BY id")
+    chans = [r[0] for r in cur.fetchall()]
+    text = "📢 Majburiy obuna kanallari\n\n"
+    if chans:
+        text += "\n".join(f"• {c}" for c in chans)
+    else:
+        text += "Hozircha kanal qo‘shilmagan."
+    text += "\n\n➕ Qo‘shish: /addchannel @kanal\n➖ O‘chirish: /removechannel @kanal"
+    await m.answer(text)
+
+@dp.message(F.text.startswith("/addchannel"))
+async def add_channel(m: Message):
+    if m.from_user.id not in ADMIN_IDS:
+        return
+    parts = m.text.split(maxsplit=1)
+    if len(parts) < 2:
+        await m.answer("Foydalanish: /addchannel @kanal")
+        return
+    ch = parts[1].strip()
+    if not ch.startswith("@"):
+        ch = "@" + ch
+    try:
+        await bot.get_chat(ch)
+        cur.execute("INSERT OR IGNORE INTO channels(username) VALUES(?)", (ch,))
+        db.commit()
+        await m.answer(f"✅ Kanal qo‘shildi: {ch}")
+    except Exception:
+        await m.answer("❌ Kanal topilmadi yoki bot kanalga kira olmayapti.\nBotni kanalga administrator qilib qo‘ying va qayta urinib ko‘ring.")
+
+@dp.message(F.text.startswith("/removechannel"))
+async def remove_channel(m: Message):
+    if m.from_user.id not in ADMIN_IDS:
+        return
+    parts = m.text.split(maxsplit=1)
+    if len(parts) < 2:
+        await m.answer("Foydalanish: /removechannel @kanal")
+        return
+    ch = parts[1].strip()
+    if not ch.startswith("@"):
+        ch = "@" + ch
+    cur.execute("DELETE FROM channels WHERE username=?", (ch,))
+    db.commit()
+    if cur.rowcount:
+        await m.answer(f"🗑️ Kanal o‘chirildi: {ch}")
+    else:
+        await m.answer("❌ Bu kanal ro‘yxatda yo‘q.")
+
 
 async def main():
     await start_web()

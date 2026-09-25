@@ -36,3 +36,15 @@ Admin ID:
 
 ## Muhim
 Bot polling ishlatadi va shu bilan birga Render talab qiladigan HTTP portni ochadi.
+
+
+### Majburiy obuna kanallari
+Begona yoki oldindan qo‘shilgan kanal ishlatilmaydi. Kanallar faqat admin tomonidan qo‘shiladi:
+
+`/addchannel @kanal`
+
+O‘chirish:
+
+`/removechannel @kanal`
+
+Bot kanalga administrator qilib qo‘yilishi kerak.
