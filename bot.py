@@ -5,7 +5,7 @@ from aiogram import Bot, Dispatcher, F
 from aiogram.filters import CommandStart
 from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 
-BOT_TOKEN = "PASTE_NEW_BOT_TOKEN_HERE"
+BOT_TOKEN = "8610499283:AAE8WLRWzN2TL8425PbgH03jLEDfveHKmhU"
 ADMIN_IDS = {6982309853}
 
 SIGNAL_PRICE = 500
