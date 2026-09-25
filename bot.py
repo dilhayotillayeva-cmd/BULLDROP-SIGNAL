@@ -41,6 +41,15 @@ cur.execute("""CREATE TABLE IF NOT EXISTS signals(
 )""")
 db.commit()
 
+# One-time cleanup of channels that existed in older versions.
+# After this runs once, only channels added by the admin will remain.
+cur.execute("CREATE TABLE IF NOT EXISTS app_meta(key TEXT PRIMARY KEY, value TEXT)")
+cur.execute("SELECT value FROM app_meta WHERE key='channels_cleaned_v2'")
+if cur.fetchone() is None:
+    cur.execute("DELETE FROM channels")
+    cur.execute("INSERT OR REPLACE INTO app_meta(key,value) VALUES('channels_cleaned_v2','1')")
+    db.commit()
+
 bot = Bot(BOT_TOKEN)
 dp = Dispatcher()
 
