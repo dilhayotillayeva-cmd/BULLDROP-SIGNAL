@@ -1,50 +1,15 @@
-# BULLDROP SIGNAL — Render Free Web Service
+# BULLDROP SIGNAL — Majburiy obuna FIX
 
-Bu versiya Render **Web Service Free** uchun tayyorlangan.
+Global majburiy obuna tekshiruvi qo'shildi:
+- /start
+- barcha Reply tugmalari
+- barcha Inline tugmalari
+- obuna bo'lmagan foydalanuvchi boshqa funksiyalarga o'tolmaydi
+- "✅ Obunani tekshirish" qayta tekshiradi
 
-## GitHub
-ZIP ichidagi 3 faylni repository root'iga yuklang:
-- bot.py
-- requirements.txt
-- render.yaml
+Admin ID: 6982309853
 
-## Render
-New -> Web Service -> GitHub repository.
+Render Environment Variables:
+BOT_TOKEN = BotFather'dan yangi token
 
-Build Command:
-`pip install -r requirements.txt`
-
-Start Command:
-`python bot.py`
-
-Plan:
-`Free`
-
-## Token
-Bot tokenini GitHub kodiga yozmang.
-
-Render -> Environment -> Add Environment Variable:
-
-Key:
-`BOT_TOKEN`
-
-Value:
-BotFather bergan YANGI token.
-
-Admin ID:
-`6982309853` kod ichida allaqachon mavjud.
-
-## Muhim
-Bot polling ishlatadi va shu bilan birga Render talab qiladigan HTTP portni ochadi.
-
-
-### Majburiy obuna kanallari
-Begona yoki oldindan qo‘shilgan kanal ishlatilmaydi. Kanallar faqat admin tomonidan qo‘shiladi:
-
-`/addchannel @kanal`
-
-O‘chirish:
-
-`/removechannel @kanal`
-
-Bot kanalga administrator qilib qo‘yilishi kerak.
+Botni majburiy kanallarga administrator qilib qo'ying.
